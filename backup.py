@@ -42,9 +42,9 @@ if __name__ == '__main__':
     
     # Check if configuration exist and is readable
     if os.path.isfile(cli_args.config) and os.access(cli_args.config, os.R_OK):
-        print ("Use configuration file %s") % (cli_args.config)
+        print ("Use configuration file {0}".format(cli_args.config))
     else:
-        print ("Configuration file is missing or is not readable - %s") % (cli_args.config)
+        print ("Configuration file is missing or is not readable - {0}".format(cli_args.config))
         sys.exit(1)
         
     # Load configuration
@@ -52,17 +52,17 @@ if __name__ == '__main__':
     
     # Check if backup_base_directory is writable
     if os.path.isdir(conf.config['global']['backup_base_directory']) and os.access(conf.config['global']['backup_base_directory'], os.W_OK):
-        print ("Use backup base directory %s") % (conf.config['global']['backup_base_directory'])
+        print ("Use backup base directory {0}".format(conf.config['global']['backup_base_directory']))
     else:
-        print ("Backup base directory is missing or is not writable - %s") % (conf.config['global']['backup_base_directory'])
+        print ("Backup base directory is missing or is not writable - {0}".format(conf.config['global']['backup_base_directory']))
         sys.exit(1)
         
     # Loop on host
     if conf.config['devices']:
         for device in conf.config['devices']:
-            print ("Start backup device : %s") % (device['host'])
+            print ("Start backup device : {0}".format(device['host']))
             
-            backup_dir = '%s/%s' % (conf.config['global']['backup_base_directory'], device['host'])
+            backup_dir = '{0}/{1}'.format(conf.config['global']['backup_base_directory'], device['host'])
             backup_file = 'configuration.export'
             
             # Check if backup directory exist and create it if necessary
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 
             # Check if backup directory is writeable
             if not os.access(backup_dir, os.W_OK):
-                print ("Backup directory is not writeable - %s") % (backup_dir)
+                print ("Backup directory is not writeable - {0}".format(backup_dir))
             
             
             # Create configuration file on device
@@ -96,7 +96,7 @@ if __name__ == '__main__':
             
             # -- ssh command
             try:
-                cmd = '/export file=%s' % (backup_file)
+                cmd = '/export file={0}'.format(backup_file)
                 ssh_client.exec_command(cmd)
             except:
                 print ('- Error during export command')
@@ -120,13 +120,13 @@ if __name__ == '__main__':
                 print ('- Error during sftp connection')
                 
             try:
-                rsc_backup_file = '%s.rsc' % (backup_file)
+                rsc_backup_file = '{0}.rsc'.format(backup_file)
                 curr_path = os.getcwd()
                 os.chdir(backup_dir)
                 sftp.get(rsc_backup_file)
                 os.chdir(curr_path)
             except:
-                print ('- Error during sftp get file : %s.rsc') % (backup_file)
+                print ('- Error during sftp get file : {0}.rsc').format(backup_file)
                     
     else:
         print ("No devices to backup")

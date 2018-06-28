@@ -1,0 +1,9 @@
+{
+    "global": {
+        "pkey_file": "/home/user/.ssh/id_rsa",
+        "backup_base_directory": "/data/backup/mikrotik"
+    },
+    "devices": [
+        { "user": "backup", "host": "192.168.0.1", "port": 22 }
+     ]
+}
